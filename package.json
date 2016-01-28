@@ -1,0 +1,20 @@
+{
+  "name": "estr-eval-app-api",
+  "version": "1.0.0",
+  "description": "Server API for evalutation devlivery platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ESTR-eval-app/estr-eval-app-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ESTR-eval-app/estr-eval-app-api/issues"
+  },
+  "homepage": "https://github.com/ESTR-eval-app/estr-eval-app-api#readme"
+}
