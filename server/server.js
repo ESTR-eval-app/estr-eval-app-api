@@ -6,7 +6,7 @@ app.use(logger('dev'));
 
 var db = require('rethinkdb');
 var connection = null;
-db.connect( {host: 'localhost', port: 28015}, function(err, conn) {
+db.connect( {host: process.env.ESTR_API_DB_HOST, port: process.env.ESTR_API_DB_PORT}, function(err, conn) {
 	if (err) throw err;
 	connection = conn;
 });
