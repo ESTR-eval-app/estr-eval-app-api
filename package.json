@@ -4,7 +4,7 @@
   "description": "Server API for evalutation devlivery platform",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine-node spec",
     "start": "node server.js"
   },
   "repository": {
@@ -16,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/ESTR-eval-app/estr-eval-app-api/issues"
   },
-  "homepage": "https://github.com/ESTR-eval-app/estr-eval-app-api#readme"
+  "homepage": "https://github.com/ESTR-eval-app/estr-eval-app-api#readme",
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "express": "^4.13.4",
+    "morgan": "^1.6.1",
+    "rethinkdb": "^2.2.1"
+  },
+  "devDependencies": {
+    "jasmine-node": "^1.14.5"
+  }
 }
