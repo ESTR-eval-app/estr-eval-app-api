@@ -27,7 +27,7 @@ module.exports.get = function (req, res) {
 				res.status(500).json({"error" : "an error occurred getting the record"});
 			})
 	}
-}
+};
 
 // create evaluation
 module.exports.post = function(req, res){
@@ -51,11 +51,11 @@ module.exports.post = function(req, res){
 			res.json({"id" : result.generated_keys[0]});
 		})
 		.error(function(err) {
-			console.log(err);
+			ç;
 			res.status(500).json({"error" : "an error occurred inserting the record"});
 		})
 	}
-}
+};
 
 // update evaluation by id
 module.exports.put = function(req, res) {
@@ -83,7 +83,6 @@ module.exports.put = function(req, res) {
 						res.json({"id" : req.params.id});
 					}
 					else {
-						console.log(result)
 						res.status(404).json({error : "evaluation not found"});
 					}
 				})
@@ -92,7 +91,7 @@ module.exports.put = function(req, res) {
 					res.status(500).json({"error" : "an error occurred updating the record"});
 				})
 		}
-}
+};
 
 // delete evaluation by id
 module.exports.delete = function(req, res) {
@@ -107,7 +106,6 @@ module.exports.delete = function(req, res) {
 			.delete()
 			.then(function(result) {
 				if (result.deleted != 1) {
-					console.log(result)
 					res.status(404).json({error : "evaluation not found"});
 				}
 				else {
@@ -119,4 +117,4 @@ module.exports.delete = function(req, res) {
 				res.status(500).json({"error" : "an error occurred deleting the record"});
 			})
 	}
-}
+};
