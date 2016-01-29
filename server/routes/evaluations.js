@@ -1,5 +1,7 @@
 var db = require('../data/db.js');
 
+
+// TODO get all evaluations for a user
 // TODO protect updates and deletion so only possible by user that owns the evaluation
 
 // get evaluation by id
