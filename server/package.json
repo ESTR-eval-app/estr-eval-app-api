@@ -20,6 +20,7 @@
   "dependencies": {
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
+    "jsonwebtoken": "^5.5.4",
     "morgan": "^1.6.1",
     "rethinkdbdash": "^2.2.17"
   },
