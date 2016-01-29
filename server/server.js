@@ -4,13 +4,6 @@ var app = express();
 var logger = require('morgan');
 app.use(logger('dev'));
 
-var db = require('rethinkdb');
-var connection = null;
-db.connect( {host: process.env.ESTR_API_DB_HOST, port: process.env.ESTR_API_DB_PORT}, function(err, conn) {
-	if (err) throw err;
-	connection = conn;
-});
-
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,12 +11,26 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 8081;
 
 var router = express.Router();
+
+router.use(function(req, res, next) {
+	next();
+});
+
 app.use('/api', router);
 
 router.get('/', function(req, res) {
 	res.json({ message: 'hello world', test: 'test'});
 });
 
+// routes for evaluations
+router.get('/evaluations/:id', require('./routes/evaluations.js').get);
+router.post('/evaluations', require('./routes/evaluations.js').post);
+router.put('/evaluations/:id', require('./routes/evaluations.js').put);
+router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
 
+// routes for accounts
+
+//router.get('/accounts/:username', require('./routes/accounts.js').get);
+//router.post('/accounts', require('./routes/accounts.js').post);
 
 app.listen(port);
