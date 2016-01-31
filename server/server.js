@@ -14,10 +14,6 @@ var router = express.Router();
 
 app.use('/api', router);
 
-router.get('/', function(req, res) {
-	res.json({ message: 'hello world', test: 'test'});
-});
-
 // route to test api accessibility
 router.get('/test', require('./routes/test.js').get);;
 // routes for evaluations
