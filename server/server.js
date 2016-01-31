@@ -12,16 +12,14 @@ var port = process.env.PORT || 8081;
 
 var router = express.Router();
 
-router.use(function(req, res, next) {
-	next();
-});
-
 app.use('/api', router);
 
 router.get('/', function(req, res) {
 	res.json({ message: 'hello world', test: 'test'});
 });
 
+// route to test api accessibility
+router.get('/test', require('./routes/test.js').get);;
 // routes for evaluations
 router.get('/evaluations/:id', require('./routes/evaluations.js').get);
 router.post('/evaluations', require('./routes/evaluations.js').post);
