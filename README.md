@@ -39,7 +39,38 @@ Response:
 }
 ```
 
-####Retrieve
+####Retrieve all
+
+`GET /evaluations`
+
+Retrieve all evaluations. 
+Example request:
+
+```
+GET http://hostname:8081/api/evaluations
+```
+
+Response:
+
+```javascript
+200 OK
+{
+    {
+		"id" : "bc95940f-084c-48c5-b9fe-dc0a82f380b6"
+		"name": "ENGL 1000",
+		"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
+		"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
+		"isAnonymous": true,
+		"isPublished": true,
+		"questions": []
+	},
+	{
+		...
+	}
+}
+ ```
+
+####Retrieve one 
 
 `GET /evaluations/:id`
 

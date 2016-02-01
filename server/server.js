@@ -16,7 +16,9 @@ app.use('/api', router);
 
 // route to test api accessibility
 router.get('/test', require('./routes/test.js').get);;
+
 // routes for evaluations
+router.get('/evaluations', require('./routes/evaluations.js').get);
 router.get('/evaluations/:id', require('./routes/evaluations.js').get);
 router.post('/evaluations', require('./routes/evaluations.js').post);
 router.put('/evaluations/:id', require('./routes/evaluations.js').put);
