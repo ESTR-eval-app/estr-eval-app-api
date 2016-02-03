@@ -18,14 +18,6 @@ app.use(cors());
 
 app.use('/api', router);
 
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-
 // route to test api accessibility
 router.get('/test', require('./routes/test.js').get);;
 
