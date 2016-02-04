@@ -18,22 +18,25 @@ app.use(cors());
 
 app.use('/api', router);
 
+
+// route to authenticate accounts
+router.post("/authenticate", require('./routes/authenticate.js').post);
 // route to test api accessibility
-router.get('/test', require('./routes/test.js').get);;
+router.get('/test', require('./routes/test.js').get);
 
 // routes for evaluations
-router.get('/evaluations', require('./routes/evaluations.js').get);
-router.get('/evaluations/:id', require('./routes/evaluations.js').get);
-router.post('/evaluations', require('./routes/evaluations.js').post);
-router.put('/evaluations/:id', require('./routes/evaluations.js').put);
-router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
-
-// routes for accounts
-router.get('/accounts', require('./routes/accounts.js').get);
-router.get('/accounts/:username', require('./routes/accounts.js').get);
-router.post('/accounts', require('./routes/accounts.js').post);
-router.put('/accounts/:username', require('./routes/accounts.js').put);
-router.delete('/accounts/:username', require('./routes/accounts.js').delete);
+//router.get('/evaluations', require('./routes/evaluations.js').get);
+//router.get('/evaluations/:id', require('./routes/evaluations.js').get);
+//router.post('/evaluations', require('./routes/evaluations.js').post);
+//router.put('/evaluations/:id', require('./routes/evaluations.js').put);
+//router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
+//
+//// routes for accounts
+//router.get('/accounts', require('./routes/accounts.js').get);
+//router.get('/accounts/:username', require('./routes/accounts.js').get);
+//router.post('/accounts', require('./routes/accounts.js').post);
+//router.put('/accounts/:username', require('./routes/accounts.js').put);
+//router.delete('/accounts/:username', require('./routes/accounts.js').delete);
 
 
 app.listen(port);
