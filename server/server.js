@@ -29,8 +29,11 @@ router.put('/evaluations/:id', require('./routes/evaluations.js').put);
 router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
 
 // routes for accounts
+router.get('/accounts', require('./routes/accounts.js').get);
+router.get('/accounts/:username', require('./routes/accounts.js').get);
+router.post('/accounts', require('./routes/accounts.js').post);
+router.put('/accounts/:username', require('./routes/accounts.js').put);
+router.delete('/accounts/:username', require('./routes/accounts.js').delete);
 
-//router.get('/accounts/:username', require('./routes/accounts.js').get);
-//router.post('/accounts', require('./routes/accounts.js').post);
 
 app.listen(port);
