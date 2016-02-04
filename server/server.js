@@ -18,6 +18,7 @@ app.use(cors());
 
 app.use('/api', router);
 
+app.use(verifyToken);
 
 // route to authenticate accounts
 router.post("/authenticate", require('./routes/authenticate.js').post);
@@ -40,3 +41,25 @@ router.get('/test', require('./routes/test.js').get);
 
 
 app.listen(port);
+
+function verifyToken(req, res, next) {
+    // check header or url parameters or post parameters for token
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+    if (token) {
+        // verifies secret and checks exp
+        jwt.verify(token, 'secret', function (err, decoded) {
+            if (err) {
+                return res.json({success: false, message: 'Failed to authenticate token.'});
+            } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;
+                console.log(decoded);
+                next();
+            }
+        })
+    }
+    else {
+        res.status(403).json({"message": "no token provided"});
+    }
+}
