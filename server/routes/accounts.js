@@ -69,12 +69,8 @@ module.exports.post = function (req, res) {
   if (!req.decodedToken.isAdmin) {
     res.status(403).json({"message": "not authorized"});
   }
-
-  if (!username) {
-    res.json({error: "must provide username"});
-  }
-  if (!password) {
-    res.json({error: "must provide password"});
+  else if (!username || !password) {
+    res.json({error: "must provide username and password"});
   }
 
   // check for existing user with same name, otherwise add
