@@ -3,7 +3,9 @@
 RethinkDB environment variables for database connection:
 ``ESTR_API_DB_HOST``
 ``ESTR_API_DB_PORT``
-``ESTR_API_TOKEN_KEY`` - secret for signing JSON web token
+
+Key for signing JSON web token: 
+``ESTR_API_TOKEN_KEY``
 
 ## Authentication
 
