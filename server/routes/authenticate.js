@@ -1,3 +1,4 @@
+//TODO hash passwords
 var db = require('../data/db.js');
 var jwt = require('jsonwebtoken');
 var secret = process.env.ESTR_API_TOKEN_KEY;
@@ -18,9 +19,8 @@ module.exports.post = function (req, res) {
         .limit(1)
         .run()
         .then(function (result) {
-          console.log(result);
             if (result.length == 1) {
-              userAuthSuccess(username, res);
+              userAuthSuccess(result[0], res);
             }
             else {
               userAuthFailure(res);
@@ -28,21 +28,24 @@ module.exports.post = function (req, res) {
         })
         .error(function (err) {
           console.log(err);
-          es.status(500).json({"error": "an error occurred getting the record"});
+          res.status(500).json({"error": "an error occurred getting the record"});
         })
     }
 };
 
-function userAuthSuccess(username, res) {
+function userAuthSuccess(result, res) {
+  console.log('AUTH success ' + result.username);
+  var user = {
+    username : result.username,
+    isAdmin : result.isAdmin
+  };
   // create token
-  var token = jwt.sign(username, secret, {
-    expiresInMinutes: 1440 // 24 hours
-  });
+  var token = jwt.sign(user, secret,
+    {
+      expiresIn: 43200 // seconds = 12 hours
+    });
 
-  // return the information including token as JSON
   res.json({
-    success: true,
-    message: 'auth success',
     token: token
   });
 

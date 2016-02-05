@@ -26,7 +26,6 @@ router.post("/authenticate", require('./routes/authenticate.js').post);
 // middleware to verify token
 router.use(function (req, res, next) {
 
-  console.log('verify');
   var token = req.headers['api-token'];
 
   if (token) {
@@ -34,9 +33,8 @@ router.use(function (req, res, next) {
       if (err) {
         return res.json({"message": "authentication failed."});
       } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;
-        console.log(decoded);
+          // save token to request
+        req.decodedToken = decoded;
         next();
       }
     })
