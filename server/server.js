@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
 
+var jwt = require('jsonwebtoken');
+
+var secret = process.env.ESTR_API_TOKEN_KEY;
+
 var logger = require('morgan');
 app.use(logger('dev'));
 
@@ -16,50 +20,50 @@ var router = express.Router();
 var cors = require('cors');
 app.use(cors());
 
-app.use('/api', router);
-
-app.use(verifyToken);
-
-// route to authenticate accounts
+// route to authenticate with token
 router.post("/authenticate", require('./routes/authenticate.js').post);
-// route to test api accessibility
-router.get('/test', require('./routes/test.js').get);
+
+// middleware to verify token
+router.use(function (req, res, next) {
+
+  console.log('verify');
+  var token = req.headers['api-token'];
+
+  if (token) {
+    jwt.verify(token, secret, function (err, decoded) {
+      if (err) {
+        return res.json({"message": "authentication failed."});
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        console.log(decoded);
+        next();
+      }
+    })
+  }
+  else {
+    res.status(403).json({"message": "no token provided"});
+  }
+
+});
 
 // routes for evaluations
-//router.get('/evaluations', require('./routes/evaluations.js').get);
-//router.get('/evaluations/:id', require('./routes/evaluations.js').get);
-//router.post('/evaluations', require('./routes/evaluations.js').post);
-//router.put('/evaluations/:id', require('./routes/evaluations.js').put);
-//router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
-//
-//// routes for accounts
-//router.get('/accounts', require('./routes/accounts.js').get);
-//router.get('/accounts/:username', require('./routes/accounts.js').get);
-//router.post('/accounts', require('./routes/accounts.js').post);
-//router.put('/accounts/:username', require('./routes/accounts.js').put);
-//router.delete('/accounts/:username', require('./routes/accounts.js').delete);
+router.get('/evaluations', require('./routes/evaluations.js').get);
+router.get('/evaluations/:id', require('./routes/evaluations.js').get);
+router.post('/evaluations', require('./routes/evaluations.js').post);
+router.put('/evaluations/:id', require('./routes/evaluations.js').put);
+router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
 
+// routes for accounts
+router.get('/accounts', require('./routes/accounts.js').get);
+router.get('/accounts/:username', require('./routes/accounts.js').get);
+router.post('/accounts', require('./routes/accounts.js').post);
+router.put('/accounts/:username', require('./routes/accounts.js').put);
+router.delete('/accounts/:username', require('./routes/accounts.js').delete);
+
+// routes for responses
+// TODO
+
+app.use('/api', router);
 
 app.listen(port);
-
-function verifyToken(req, res, next) {
-    // check header or url parameters or post parameters for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-    if (token) {
-        // verifies secret and checks exp
-        jwt.verify(token, 'secret', function (err, decoded) {
-            if (err) {
-                return res.json({success: false, message: 'Failed to authenticate token.'});
-            } else {
-                // if everything is good, save to request for use in other routes
-                req.decoded = decoded;
-                console.log(decoded);
-                next();
-            }
-        })
-    }
-    else {
-        res.status(403).json({"message": "no token provided"});
-    }
-}
