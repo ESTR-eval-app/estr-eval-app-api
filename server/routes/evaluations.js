@@ -3,7 +3,7 @@ var db = require('../data/db.js');
 
 
 // TODO protect updates and deletion so only possible by user that owns the evaluation
-
+// TODO prevent updates to published or finished evaluations
 
 
 // get evaluations
@@ -62,7 +62,7 @@ module.exports.post = function (req, res) {
           "createdBy": req.body.createdBy,
           "resultsAvailableDate": req.body.resultsAvailableDate,
           "isAnonymous": req.body.isAnonymous,
-          "isPublished": req.body.isPublished,
+          "status": "created",
           "questions": req.body.questions
         }
       )
@@ -94,7 +94,7 @@ module.exports.put = function (req, res) {
         "createdBy": req.body.createdBy,
         "resultsAvailableDate": req.body.resultsAvailableDate,
         "isAnonymous": req.body.isAnonymous,
-        "isPublished": req.body.isPublished,
+        "status": req.body.status,
         "questions": req.body.questions
       })
       .then(function (result) {

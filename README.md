@@ -50,7 +50,6 @@ POST http://hostname:port/api/evaluations
 	"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
 	"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 	"isAnonymous": true,
-	"isPublished": true,
 	"questions": []
 }
 ```
@@ -86,7 +85,7 @@ Response:
 		"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
 		"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 		"isAnonymous": true,
-		"isPublished": true,
+		"status": created,
 		"questions": []
 	},
 	{
@@ -116,7 +115,7 @@ Response:
 	"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
 	"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 	"isAnonymous": true,
-	"isPublished": true,
+	"status": published,
 	"questions": []
 }
  ```
@@ -135,7 +134,7 @@ PUT http://hostname:port/api/evaluations/:bc95940f-084c-48c5-b9fe-dc0a82f380b6
 	"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
 	"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 	"isAnonymous": false,
-	"isPublished": true,
+	"status": published,
 	"questions": []
 }
 ```

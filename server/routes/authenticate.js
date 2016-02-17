@@ -36,6 +36,7 @@ module.exports.post = function (req, res) {
 function userAuthSuccess(result, res) {
   console.log('AUTH success ' + result.username);
   var user = {
+    id : result.id,
     username : result.username,
     isAdmin : result.isAdmin
   };
