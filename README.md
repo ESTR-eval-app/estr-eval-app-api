@@ -85,7 +85,7 @@ Response:
 		"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
 		"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 		"isAnonymous": true,
-		"status": created,
+		"status": Created,
 		"questions": []
 	},
 	{
@@ -115,7 +115,7 @@ Response:
 	"createdBy": "5c34097f-464d-47c0-9762-5d0f124450cd",
 	"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 	"isAnonymous": true,
-	"status": published,
+	"status": Published,
 	"questions": []
 }
  ```

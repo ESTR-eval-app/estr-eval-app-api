@@ -62,7 +62,7 @@ module.exports.post = function (req, res) {
           "createdBy": req.body.createdBy,
           "resultsAvailableDate": req.body.resultsAvailableDate,
           "isAnonymous": req.body.isAnonymous,
-          "status": "created",
+          "status": "Created",
           "questions": req.body.questions
         }
       )
