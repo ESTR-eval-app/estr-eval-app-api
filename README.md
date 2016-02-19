@@ -135,7 +135,18 @@ PUT http://hostname:port/api/evaluations/:bc95940f-084c-48c5-b9fe-dc0a82f380b6
 	"resultsAvailableDate": "2016-01-29T05:32:18.665Z",
 	"isAnonymous": false,
 	"status": published,
-	"questions": []
+	"questions": [
+	  {
+	    "text" : "How much do you like pizza?",
+	    "audioPath" : ".....",
+	    "type" : "faces"
+	  },
+	  {
+        "text" : "How much do you like cake?",
+        "audioPath" : ".....",
+        "type" : "descriptive"
+      }]
+	  
 }
 ```
 
