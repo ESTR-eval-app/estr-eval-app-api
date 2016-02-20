@@ -23,6 +23,13 @@ app.use(cors());
 // route to authenticate with token
 router.post("/authenticate", require('./routes/authenticate.js').post);
 
+// publicly accessible routes
+router.get('/evaluations', require('./routes/evaluations_public.js').get);
+router.get('/evaluations/:id', require('./routes/evaluations_public.js').get);
+
+// routes for responses
+// TODO
+
 // middleware to verify token
 router.use(function (req, res, next) {
 
@@ -46,11 +53,9 @@ router.use(function (req, res, next) {
 });
 
 // routes for evaluations
-router.get('/evaluations', require('./routes/evaluations.js').get);
-router.get('/evaluations/:id', require('./routes/evaluations.js').get);
-router.post('/evaluations', require('./routes/evaluations.js').post);
-router.put('/evaluations/:id', require('./routes/evaluations.js').put);
-router.delete('/evaluations/:id', require('./routes/evaluations.js').delete);
+router.post('/evaluations', require('./routes/evaluations_protected.js').post);
+router.put('/evaluations/:id', require('./routes/evaluations_protected.js').put);
+router.delete('/evaluations/:id', require('./routes/evaluations_protected.js').delete);
 
 // routes for accounts
 router.get('/accounts', require('./routes/accounts.js').get);
@@ -58,9 +63,6 @@ router.get('/accounts/:username', require('./routes/accounts.js').get);
 router.post('/accounts', require('./routes/accounts.js').post);
 router.put('/accounts/:username', require('./routes/accounts.js').put);
 router.delete('/accounts/:username', require('./routes/accounts.js').delete);
-
-// routes for responses
-// TODO
 
 app.use('/api', router);
 

@@ -33,10 +33,12 @@ This token must be passed in an `api-token` header with any subsequent requests 
 
 ## Routes
 
-These routes require a valid token be present in the `api-token` header.
+
 
 ###Evaluation
 ####Create
+
+Requires a valid token be present in the `api-token` header.
 
 `POST /evaluations`
 
@@ -124,6 +126,8 @@ Response:
 
 ####Update
 
+Requires a valid token be present in the `api-token` header.
+
 Update an evaluation that has not yet been published. 
 Example request:
 
@@ -161,6 +165,8 @@ Response:
 
 ####Delete
 
+Requires a valid token be present in the `api-token` header.
+
 `DELETE /evaluations/:id`
 
 Delete an evaluation by the current user that has not yet been published.
@@ -182,6 +188,8 @@ Response:
 
 ###Account
 ####Create
+
+Requires a valid token be present in the `api-token` header.
 
 `POST /accounts`
 
@@ -208,6 +216,8 @@ Response:
 
 ####Retrieve all
 
+Requires a valid token be present in the `api-token` header.
+
 `GET /accounts`
 
 Retrieve all user accounts. May only be performed by an administrator. 
@@ -232,6 +242,8 @@ Response:
  ```
 
 ####Retrieve one 
+
+Requires a valid token be present in the `api-token` header.
 
 `GET /accounts/:username`
 
@@ -259,6 +271,8 @@ Response:
 
 ####Update
 
+Requires a valid token be present in the `api-token` header.
+
 Update an account. May only be performed by an administrator or by the user being updated. Only an administrator may change the account's level of permissions.
 Example request:
 
@@ -281,6 +295,8 @@ Response:
 ```
 
 ####Delete
+
+Requires a valid token be present in the `api-token` header.
 
 `DELETE /accounts/:id`
 
