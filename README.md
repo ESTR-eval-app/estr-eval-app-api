@@ -139,12 +139,12 @@ PUT http://hostname:port/api/evaluations/:bc95940f-084c-48c5-b9fe-dc0a82f380b6
 	  {
 	    "text" : "How much do you like pizza?",
 	    "audioPath" : ".....",
-	    "type" : "faces"
+	    "type" : "Faces"
 	  },
 	  {
         "text" : "How much do you like cake?",
         "audioPath" : ".....",
-        "type" : "descriptive"
+        "type" : "Descriptive"
       }]
 	  
 }
@@ -169,9 +169,6 @@ Example request:
 
 ```javascript
 DELETE http://hostname:port/api/evaluations/:abc1232f-084c-48c5-b9fe-dc0a82f380b6
-{
-	"username" : "5c34097f-464d-47c0-9762-5d0f124450cd"
-}
 ```
 
 Response:

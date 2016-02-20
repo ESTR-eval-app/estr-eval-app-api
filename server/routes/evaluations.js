@@ -112,10 +112,11 @@ module.exports.put = function (req, res) {
   }
 };
 
+// TODO check that token belongs to same user that created it
 // delete evaluation by id
 module.exports.delete = function (req, res) {
-  if (!req.params.id || !req.body.username) {
-    res.status(400).json({"error": "must provide evaluation id and username"});
+  if (!req.params.id) {
+    res.status(400).json({"error": "must provide evaluation id"});
   }
   else {
     db.table('evaluations')
