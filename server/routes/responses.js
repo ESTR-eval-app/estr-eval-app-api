@@ -4,7 +4,9 @@ var db = require('../data/db.js');
 
 module.exports.post = function (req, res) {
 console.log(req.body);
-  if (!req.body.evaluationId || !req.body.questionResponses || req.body.questionResponses.length < 1) {
+  if (!req.body.evaluationId ||
+    !req.body.questionResponses ||
+    req.body.questionResponses.length < 1) {
     res.status(400).json({"error": "must provide evaluation id and question responses"});
   }
   else {
