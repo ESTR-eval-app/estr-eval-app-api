@@ -33,8 +33,6 @@ This token must be passed in an `api-token` header with any subsequent requests 
 
 ## Routes
 
-
-
 ###Evaluation
 ####Create
 
@@ -317,5 +315,36 @@ Response:
 200 OK
 {
 	"deleted" : "bob"
+}
+```
+
+###Response
+####Create
+
+`POST /accounts`
+
+Creates an evaluation response record. Optionally include a participant's name.
+Example request:
+
+```
+POST http://hostname:port/api/responses
+{
+    "evaluationId" : "bc95940f-084c-48c5-b9fe-dc0a82f380b6",
+    "questionResponses" : 
+    [
+        3,
+        "This is super cool!",
+        6 
+    ],
+    "name" : "Bob"
+}
+```
+
+Response: 
+
+```
+200 OK
+{
+  "message": "success"
 }
 ```

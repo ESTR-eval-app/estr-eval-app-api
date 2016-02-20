@@ -27,8 +27,8 @@ router.post("/authenticate", require('./routes/authenticate.js').post);
 router.get('/evaluations', require('./routes/evaluations_public.js').get);
 router.get('/evaluations/:id', require('./routes/evaluations_public.js').get);
 
-// routes for responses
-// TODO
+// route for responses
+router.post('/responses', require('./routes/responses.js').post);
 
 // middleware to verify token
 router.use(function (req, res, next) {
