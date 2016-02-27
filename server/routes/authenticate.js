@@ -34,7 +34,6 @@ module.exports.post = function (req, res) {
 };
 
 function userAuthSuccess(result, res) {
-  3.
   console.log('AUTH success ' + result.username);
   var user = {
     id : result.id,
