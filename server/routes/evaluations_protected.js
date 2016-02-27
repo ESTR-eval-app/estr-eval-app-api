@@ -21,7 +21,8 @@ module.exports.post = function (req, res) {
           "isAnonymous": req.body.isAnonymous,
           "status": "Created",
           "questions": req.body.questions,
-          "allowNotApplicable" : req.body.allowNotApplicable
+          "allowNotApplicable" : req.body.allowNotApplicable,
+          "allowDontKnow" : req.body.allowDontKnow
         }
       )
       .run()
@@ -60,7 +61,9 @@ module.exports.put = function (req, res) {
         "isAnonymous": req.body.isAnonymous,
         "status": req.body.status,
         "questions": req.body.questions,
-        "allowNotApplicable" : req.body.allowNotApplicable
+        "allowNotApplicable" : req.body.allowNotApplicable,
+        "allowDontKnow" : req.body.allowDontKnow
+
       })
       .then(function (result) {
         if (result.replaced == 1 || result.unchanged == 1) {
