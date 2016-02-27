@@ -20,7 +20,8 @@ module.exports.post = function (req, res) {
           "resultsAvailableDate": req.body.resultsAvailableDate,
           "isAnonymous": req.body.isAnonymous,
           "status": "Created",
-          "questions": req.body.questions
+          "questions": req.body.questions,
+          "allowNotApplicable" : req.body.allowNotApplicable
         }
       )
       .run()
@@ -58,7 +59,8 @@ module.exports.put = function (req, res) {
         "resultsAvailableDate": req.body.resultsAvailableDate,
         "isAnonymous": req.body.isAnonymous,
         "status": req.body.status,
-        "questions": req.body.questions
+        "questions": req.body.questions,
+        "allowNotApplicable" : req.body.allowNotApplicable
       })
       .then(function (result) {
         if (result.replaced == 1 || result.unchanged == 1) {
