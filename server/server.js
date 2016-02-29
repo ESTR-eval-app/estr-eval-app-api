@@ -57,6 +57,9 @@ router.post('/evaluations', require('./routes/evaluations_protected.js').post);
 router.put('/evaluations/:id', require('./routes/evaluations_protected.js').put);
 router.delete('/evaluations/:id', require('./routes/evaluations_protected.js').delete);
 
+//routes for results
+router.get('/evaluations/:evalId/results', require('./routes/results.js').getById);
+
 // routes for accounts
 router.get('/accounts', require('./routes/accounts.js').get);
 router.get('/accounts/:username', require('./routes/accounts.js').get);
