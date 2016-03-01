@@ -12,7 +12,7 @@ console.log(req.body);
   else {
     var record = {
       evaluationId : req.body.evaluationId,
-      dateReceived : new Date().toString(),
+      dateReceived: new Date().getTime(),
       questionResponses : req.body.questionResponses
     };
     if (req.body.name) {
@@ -30,4 +30,4 @@ console.log(req.body);
       })
   }
 
-}
+};

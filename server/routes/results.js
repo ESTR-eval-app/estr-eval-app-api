@@ -48,6 +48,11 @@ function checkForEvaluationResults(req, res, evaluation) {
 }
 
 function buildResultsObject(req, res, evaluation, responses) {
+  var firstResponseDate, lastResponseDate;
+  // get start date
+
+  // get end date
+
   console.log(responses);
 
 }
