@@ -37,6 +37,7 @@ function checkForEvaluationResults(req, res, evaluation) {
     .filter({
       evaluationId: evaluation.id
     })
+    .orderBy('dateReceived')
     .run()
     .then(function (responses) {
       buildResultsObject(req, res, evaluation, responses);
@@ -48,11 +49,56 @@ function checkForEvaluationResults(req, res, evaluation) {
 }
 
 function buildResultsObject(req, res, evaluation, responses) {
-  var firstResponseDate, lastResponseDate;
-  // get start date
 
-  // get end date
+
+  var isAnonymous = evaluation.isAnonymous;
+
+  var resultsObj = {
+    evaluationId: evaluation.id,
+    responsesStartDate: new Date(responses[0].dateReceived),
+    responsesEndDate: new Date(responses[responses.length - 1].dateReceived),
+    responseCounts: [],
+    qualitativeResponses: []
+  };
+
+
 
   console.log(responses);
 
+
+  //console.log(evaluation);
+
+  evaluation.questions.forEach(function (question, i, questions) {
+    // collect qualitative responses to each question in an array
+    if (question.type === "Descriptive") {
+      var responsesForQuestion = {
+        question: i,
+        responses: []
+      };
+      responses.forEach(function (response, j, responses) {
+        var record = {text: response.questionResponses[i]};
+        if (!evaluation.isAnonymous) {
+          record.name = response.name;
+        }
+        responsesForQuestion.responses.push(record);
+      });
+      resultsObj.qualitativeResponses.push(responsesForQuestion);
+    }
+    else {
+      // count response values for each quantitative question
+      var responsesForQuestion = {
+        question: i,
+        responses: {}
+      };
+      responses.forEach(function (response, j, responses) {
+        if (!responsesForQuestion.responses[response.questionResponses[i]]) {
+          responsesForQuestion.responses[response.questionResponses[i]] = 0;
+        }
+        responsesForQuestion.responses[response.questionResponses[i]]++;
+      });
+      resultsObj.responseCounts.push(responsesForQuestion);
+    }
+  });
+
+  res.json(resultsObj);
 }

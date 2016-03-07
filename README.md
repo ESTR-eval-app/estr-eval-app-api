@@ -369,13 +369,28 @@ Response:
   "evaluationId": "06fde6a5-56eb-4d75-a1c4-eed2c113dc85",
   "responsesStartDate": "2016-01-26T09:20:59.312Z",
   "responsesEndDate": "2016-01-29T05:32:18.665Z",
-  "responseCounts": {
-    "1": 3,
-    "2": 5,
-    "3": 7,
-    "4": 4,
-    "NA": 3
-  },
+  "responseCounts": [
+    {
+      "question": "0",
+      "responses": {
+        "1": 3,
+        "2": 5,
+        "3": 7,
+        "4": 4,
+        "NA": 3
+      }
+    },
+    {
+      "question": "1",
+      "responses": {
+        "1": 3,
+        "2": 5,
+        "3": 7,
+        "4": 4,
+        "NA": 3
+      }
+    }
+  ]
   "qualitativeResponses": [
     {
       "question": 6,
