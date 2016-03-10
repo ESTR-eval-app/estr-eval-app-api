@@ -348,3 +348,76 @@ Response:
   "message": "success"
 }
 ```
+
+###Result
+####Retrieve By Evaluation Id
+
+`GET /evaluations/:evaluationId/results`
+
+Retrieves results for an evaluation, if it has finished.
+Example request:
+
+```
+GET http://hostname:port/api/evaluations/06fde6a5-56eb-4d75-a1c4-eed2c113dc85/results
+```
+
+Response:
+
+```javascript
+200 OK
+{
+  "evaluationId": "06fde6a5-56eb-4d75-a1c4-eed2c113dc85",
+  "responsesStartDate": "2016-01-26T09:20:59.312Z",
+  "responsesEndDate": "2016-01-29T05:32:18.665Z",
+  "responseCounts": [
+    {
+      "question": "0",
+      "responses": {
+        "1": 3,
+        "2": 5,
+        "3": 7,
+        "4": 4,
+        "NA": 3
+      }
+    },
+    {
+      "question": "1",
+      "responses": {
+        "1": 3,
+        "2": 5,
+        "3": 7,
+        "4": 4,
+        "NA": 3
+      }
+    }
+  ]
+  "qualitativeResponses": [
+    {
+      "question": 6,
+      "responses": [
+        {
+          "text": "I'd have preferred it if there was more cake.",
+          "name": "Bob"
+        },
+        {
+          "response": "I thought the instructor was super cool!",
+          "name": "Sally"
+        }
+      ]
+    },
+    {
+      "question": 7,
+      "responses": [
+        {
+          "text": "Awesome",
+          "name": "Bob"
+        },
+        {
+          "response": "Neat-o",
+          "name": "Sally"
+        }
+      ]
+    }
+  ]
+}
+ ```
