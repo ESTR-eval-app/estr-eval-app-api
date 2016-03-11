@@ -38,7 +38,6 @@ function checkForEvaluationResults(req, res, evaluation) {
       evaluationId: evaluation.id
     })
     .orderBy('dateReceived')
-    .run()
     .then(function (responses) {
       buildResultsObject(req, res, evaluation, responses);
     })
@@ -61,13 +60,6 @@ function buildResultsObject(req, res, evaluation, responses) {
     responseCounts: [],
     qualitativeResponses: []
   };
-
-
-
-  console.log(responses);
-
-
-  //console.log(evaluation);
 
   evaluation.questions.forEach(function (question, i, questions) {
     // collect qualitative responses to each question in an array
@@ -101,5 +93,5 @@ function buildResultsObject(req, res, evaluation, responses) {
     }
   });
 
-  res.json(resultsObj);
+  return resultsObj;
 }

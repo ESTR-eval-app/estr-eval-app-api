@@ -17,6 +17,7 @@ module.exports = function (evaluation) {
 
 };
 
+// TODO when setting an evaluation to finished, send email as results are ready
 function setEvaluationFinished(id) {
   db.table('evaluations')
   .filter({
