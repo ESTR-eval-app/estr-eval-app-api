@@ -367,6 +367,7 @@ Response:
 200 OK
 {
   "evaluationId": "06fde6a5-56eb-4d75-a1c4-eed2c113dc85",
+  "numResponses": 22
   "responsesStartDate": "2016-01-26T09:20:59.312Z",
   "responsesEndDate": "2016-01-29T05:32:18.665Z",
   "responseCounts": [

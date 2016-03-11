@@ -55,6 +55,7 @@ function buildResultsObject(req, res, evaluation, responses) {
 
   var resultsObj = {
     evaluationId: evaluation.id,
+    numResponses: responses.length,
     responsesStartDate: new Date(responses[0].dateReceived),
     responsesEndDate: new Date(responses[responses.length - 1].dateReceived),
     responseCounts: [],
