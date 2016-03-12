@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ESTR-eval-app/estr-eval-app-api.svg?branch=master)](https://travis-ci.org/ESTR-eval-app/estr-eval-app-api)
+
 # ESTR Evaluation App API
 
 RethinkDB environment variables for database connection:
