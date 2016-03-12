@@ -1,5 +1,4 @@
 language: node_js
-sudo: required
 node_js:
 - '4.1'
 addons:
@@ -11,6 +10,5 @@ before_install:
 - rm eval-n-deploy-key.enc
 - chmod 600 eval-n-deploy-key
 - mv eval-n-deploy-key ~/.ssh/id_rsa
-script:
 after_success:
 - scripts/deploy.sh
