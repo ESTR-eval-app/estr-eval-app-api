@@ -7,7 +7,6 @@ module.exports.get = function (req, res) {
     // get all
     db.table('evaluations')
       // todo change from all to all for user
-      .run()
       .then(function (result) {
         if (result.length == 0) {
           res.status(404).json({error: "no evaluations found"});
@@ -33,7 +32,6 @@ module.exports.get = function (req, res) {
         // todo filter for user
       })
       .limit(1)
-      .run()
       .then(function (result) {
         if (result.length == 0) {
           res.status(404).json({error: "evaluation not found"});
