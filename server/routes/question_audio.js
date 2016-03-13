@@ -18,9 +18,15 @@ module.exports.post = function (req, res) {
 
   fs.writeFile(filePath, content, function (err) {
     if (err) {
-      throw new Error("Problem writing file to disk");
+      console.error(err);
+      res.status(500).json({message: "an error occurred storing the file"});
     }
-    //updateQuestionAudio()
+    else {
+      res.json({
+        message: "stored successfully",
+        uri: 'http://' + req.headers.host + '/audio/' + targetFile
+      });
+    }
   });
 
 
