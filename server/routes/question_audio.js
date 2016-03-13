@@ -11,21 +11,21 @@ module.exports.post = function (req, res) {
     (req.headers['content-length'] != req.body.length)) {
     res.status(400).json({message: "invalid request"});
   }
+  else {
+    var content = req.body;
 
-  var content = req.body;
-
-  // TODO check evaluation exists?
-  audio.storeAudioFile(evalId, questionId, content, function (path, err) {
-    if (err) {
-      console.error(err);
-      res.status(500).json({message: "an error occurred storing the file"});
-    }
-    else {
-      res.json({
-        message: "stored successfully",
-        uri: 'http://' + req.headers.host + '/' + path
-      });
-    }
-  });
-
+    // TODO check evaluation exists?
+    audio.storeAudioFile(evalId, questionId, content, function (path, err) {
+      if (err) {
+        console.error(err);
+        res.status(500).json({message: "an error occurred storing the file"});
+      }
+      else {
+        res.json({
+          message: "stored successfully",
+          uri: 'http://' + req.headers.host + '/' + path
+        });
+      }
+    });
+  }
 };
