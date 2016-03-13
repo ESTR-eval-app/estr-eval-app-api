@@ -93,5 +93,5 @@ function buildResultsObject(req, res, evaluation, responses) {
     }
   });
 
-  return resultsObj;
+  res.json(resultsObj);
 }
