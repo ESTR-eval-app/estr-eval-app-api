@@ -430,7 +430,7 @@ Response:
  
  `POST /evaluations/:evaluationId/questionAudio/:id`
  
- Add an audio file for a question. Requires the evaluation's id and the question's id.
+ Add an audio file for a question. Requires the evaluation's id and the question's id. Currently limited to mp3 files less than 3MB.
  Example request:
  
  ```

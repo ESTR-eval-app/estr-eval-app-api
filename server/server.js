@@ -12,7 +12,10 @@ var logger = require('morgan');
 app.use(logger('dev'));
 
 var bodyParser = require('body-parser');
-app.use(bodyParser.raw({type: 'audio/mp3'}));
+app.use(bodyParser.raw({
+  type: 'audio/mp3',
+  limit: 3145728 // 3mb
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

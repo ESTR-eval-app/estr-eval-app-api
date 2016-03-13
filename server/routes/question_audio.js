@@ -6,6 +6,12 @@ module.exports.post = function (req, res) {
   var evalId = req.params.evalId;
   var questionId = req.params.questionId;
   console.log('eval ' + evalId + ' question ' + questionId);
+
+  console.log(req.headers);
+  if (!req.headers['content-type'] === 'audio/mp3' ||
+    (req.headers['content-length'] != req.body.length)) {
+    res.status(400).json({message: "invalid request"});
+  }
   // TODO check that it is audio and mp3
 
   // TODO check evaluation exists, get evaluation
