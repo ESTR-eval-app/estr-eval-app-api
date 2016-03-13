@@ -12,12 +12,10 @@ module.exports.post = function (req, res) {
     (req.headers['content-length'] != req.body.length)) {
     res.status(400).json({message: "invalid request"});
   }
-  // TODO check that it is audio and mp3
-
-  // TODO check evaluation exists, get evaluation
 
   var content = req.body;
 
+  // TODO check evaluation exists?
   audio.storeAudioFile(evalId, questionId, content, function (path, err) {
     if (err) {
       console.error(err);
