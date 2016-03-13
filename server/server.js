@@ -57,6 +57,8 @@ router.post('/evaluations', require('./routes/evaluations_protected.js').post);
 router.put('/evaluations/:id', require('./routes/evaluations_protected.js').put);
 router.delete('/evaluations/:id', require('./routes/evaluations_protected.js').delete);
 
+// routes for question audio
+router.post('/evaluations/:evalId/question/:questionId/audio', require('./routes/question_audio').post);
 //routes for results
 router.get('/evaluations/:evalId/results', require('./routes/results.js').getById);
 
