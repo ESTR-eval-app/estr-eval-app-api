@@ -424,3 +424,26 @@ Response:
   ]
 }
  ```
+
+###Question Audio
+ ####Upload
+ 
+ `POST /evaluations/:evaluationId/questionAudio/:id`
+ 
+ Add an audio file for a question. Requires the evaluation's id and the question's id. Currently limited to mp3 files less than 3MB.
+ Example request:
+ 
+ ```
+ POST http://hostname:port/api/evaluations/06fde6a5-56eb-4d75-a1c4-eed2c113dc85/questionAudio/0
+ Content-Type audio/mp3
+ ```
+ 
+ Response:
+ 
+```
+200 OK
+{
+    "message" : "stored successfully",
+    "uri" : "http://hostname:port/content/06fde6a5-56eb-4d75-a1c4-eed2c113dc85_q_0.mp3",
+}
+```

@@ -5,10 +5,17 @@ var jwt = require('jsonwebtoken');
 
 var secret = process.env.ESTR_API_TOKEN_KEY;
 
+var audio = require('./data/audioStorage.js');
+audio.init();
+
 var logger = require('morgan');
 app.use(logger('dev'));
 
 var bodyParser = require('body-parser');
+app.use(bodyParser.raw({
+  type: 'audio/mp3',
+  limit: 3145728 // 3mb
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -31,32 +38,34 @@ router.get('/evaluations/:id', require('./routes/evaluations_public.js').get);
 router.post('/responses', require('./routes/responses.js').post);
 
 // middleware to verify token
-//router.use(function (req, res, next) {
-//
-//  var token = req.headers['api-token'];
-//
-//  if (token) {
-//    jwt.verify(token, secret, function (err, decoded) {
-//      if (err) {
-//        return res.json({"message": "authentication failed."});
-//      } else {
-//          // save token to request
-//        req.decodedToken = decoded;
-//        next();
-//      }
-//    })
-//  }
-//  else {
-//    res.status(403).json({"message": "no token provided"});
-//  }
-//
-//});
+router.use(function (req, res, next) {
+
+  var token = req.headers['api-token'];
+
+  if (token) {
+    jwt.verify(token, secret, function (err, decoded) {
+      if (err) {
+        return res.json({"message": "authentication failed."});
+      } else {
+        // save token to request
+        req.decodedToken = decoded;
+        next();
+      }
+    })
+  }
+  else {
+    res.status(403).json({"message": "no token provided"});
+  }
+
+});
 
 // routes for evaluations
 router.post('/evaluations', require('./routes/evaluations_protected.js').post);
 router.put('/evaluations/:id', require('./routes/evaluations_protected.js').put);
 router.delete('/evaluations/:id', require('./routes/evaluations_protected.js').delete);
 
+// routes for question audio
+router.post('/evaluations/:evalId/question/:questionId/audio', require('./routes/question_audio').post);
 //routes for results
 router.get('/evaluations/:evalId/results', require('./routes/results.js').getById);
 
@@ -68,5 +77,6 @@ router.put('/accounts/:username', require('./routes/accounts.js').put);
 router.delete('/accounts/:username', require('./routes/accounts.js').delete);
 
 app.use('/api', router);
+app.use('/audio', express.static(audio.getAudioDirectory()));
 
 app.listen(port);
