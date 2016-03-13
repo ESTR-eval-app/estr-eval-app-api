@@ -71,5 +71,6 @@ router.put('/accounts/:username', require('./routes/accounts.js').put);
 router.delete('/accounts/:username', require('./routes/accounts.js').delete);
 
 app.use('/api', router);
+app.use('/audio', express.static('audio'));  // TODO change path
 
 app.listen(port);
