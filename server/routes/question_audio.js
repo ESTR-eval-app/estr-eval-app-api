@@ -7,7 +7,6 @@ module.exports.post = function (req, res) {
   var questionId = req.params.questionId;
   console.log('eval ' + evalId + ' question ' + questionId);
 
-  console.log(req.headers);
   if (!req.headers['content-type'] === 'audio/mp3' ||
     (req.headers['content-length'] != req.body.length)) {
     res.status(400).json({message: "invalid request"});
