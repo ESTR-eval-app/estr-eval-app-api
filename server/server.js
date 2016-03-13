@@ -5,6 +5,9 @@ var jwt = require('jsonwebtoken');
 
 var secret = process.env.ESTR_API_TOKEN_KEY;
 
+var audio = require('./data/audioStorage.js');
+audio.init();
+
 var logger = require('morgan');
 app.use(logger('dev'));
 
@@ -71,6 +74,6 @@ router.put('/accounts/:username', require('./routes/accounts.js').put);
 router.delete('/accounts/:username', require('./routes/accounts.js').delete);
 
 app.use('/api', router);
-app.use('/audio', express.static('audio'));  // TODO change path
+app.use('/audio', express.static(audio.getAudioDirectory()));
 
 app.listen(port);

@@ -430,7 +430,7 @@ Response:
  
  `POST /evaluations/:evaluationId/questionAudio/:id`
  
- Add an audio file for a question. Id is the question number.
+ Add an audio file for a question. Requires the evaluation's id and the question's id.
  Example request:
  
  ```
