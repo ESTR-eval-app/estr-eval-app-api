@@ -3,54 +3,64 @@ var db = require('../data/db.js');
 
 // get results for evaluation
 module.exports.getById = function (req, res) {
-  getEvaluation(req, res, checkForEvaluationResults);
-  // first check that evaluation is finished
+  var evalId = req.params.evalId;
+
+  getEvaluation(evalId)
+    .then(getResults)
+    .then(function (results) {
+      res.json(results);
+    })
+    .catch(function (err) {
+      console.error(err);
+      var code = 500;
+
+      if (err.message == "Evaluation not found") {
+        code = 404;
+      }
+      else if (err.message == "Evaluation not yet finished") {
+        code = 400;
+      }
+      res.status(code).json({message: err.message});
+    });
 };
 
-function getEvaluation(req, res, callback) {
-  var evalId = req.params.evalId;
-  db.table('evaluations')
+function getEvaluation(evalId) {
+  return db.table('evaluations')
     .filter({
       "id": evalId
     })
     .limit(1)
-    .run()
     .then(function (result) {
       if (result.length == 0) {
-        res.status(404).json({error: "evaluation not found"});
+        throw new Error("Evaluation not found");
       }
       else if (result[0].status != "Finished") {
-        res.status(403).json({error: "the evaluation has not yet finished"});
+        throw new Error("Evaluation not yet finished");
       }
       else {
-        callback(req, res, result[0]);
+        return result[0];
       }
     })
     .error(function (err) {
-      console.log(err);
-      res.status(500).json({"error": "an error occurred getting the record"});
+      throw err;
     })
 }
 
-function checkForEvaluationResults(req, res, evaluation) {
-  db.table('responses')
+function getResults(evaluation) {
+  return db.table('responses')
     .filter({
       evaluationId: evaluation.id
     })
     .orderBy('dateReceived')
     .then(function (responses) {
-      buildResultsObject(req, res, evaluation, responses);
+      return buildResultsObject(evaluation, responses)
     })
     .error(function (err) {
-      console.log(err);
-      res.status(500).json({"error": "an error occurred getting the record"});
+      throw err;
     })
 }
 
-function buildResultsObject(req, res, evaluation, responses) {
-
-
-  var isAnonymous = evaluation.isAnonymous;
+function buildResultsObject(evaluation, responses) {
 
   var resultsObj = {
     evaluationId: evaluation.id,
@@ -61,14 +71,14 @@ function buildResultsObject(req, res, evaluation, responses) {
     qualitativeResponses: []
   };
 
-  evaluation.questions.forEach(function (question, i, questions) {
+  evaluation.questions.forEach(function (question, i) {
+    var responsesForQuestion = {
+      question: i
+    };
     // collect qualitative responses to each question in an array
     if (question.type === "Descriptive") {
-      var responsesForQuestion = {
-        question: i,
-        responses: []
-      };
-      responses.forEach(function (response, j, responses) {
+      responsesForQuestion.responses = [];
+      responses.forEach(function (response) {
         var record = {text: response.questionResponses[i]};
         if (!evaluation.isAnonymous) {
           record.name = response.name;
@@ -79,11 +89,8 @@ function buildResultsObject(req, res, evaluation, responses) {
     }
     else {
       // count response values for each quantitative question
-      var responsesForQuestion = {
-        question: i,
-        responses: {}
-      };
-      responses.forEach(function (response, j, responses) {
+      responsesForQuestion.responses = {};
+      responses.forEach(function (response) {
         if (!responsesForQuestion.responses[response.questionResponses[i]]) {
           responsesForQuestion.responses[response.questionResponses[i]] = 0;
         }
@@ -93,5 +100,5 @@ function buildResultsObject(req, res, evaluation, responses) {
     }
   });
 
-  res.json(resultsObj);
+  return resultsObj;
 }
