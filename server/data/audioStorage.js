@@ -35,3 +35,5 @@ module.exports.storeAudioFile = function (evalId, questionId, file, completed) {
     completed(filePath, undefined);
   });
 };
+
+// TODO check for orphaned audio files and clean up
