@@ -9,7 +9,34 @@ RethinkDB environment variables for database connection:
 Key for signing JSON web token: 
 ``ESTR_API_TOKEN_KEY``
 
-## Authentication
+## Email Notifications
+
+When an evaluation's status is changed to finished, the server sends a notification email to the user's email address to let them know that results are available.
+
+The server uses Nodemailer `https://github.com/nodemailer/nodemailer` to access a Gmail account defined in the server config and send notification emails to the address for the user that created the evaluation. 
+
+The following environment variables are required:
+
+``EVAL_N_NOTIFY_ENABLE`` - true to enable email notifications, false otherwise
+
+``EVAL_N_GMAIL_ACCT`` - gmail account from which notifications should be sent. ex) bob@gmail.com
+
+``EVAL_N_GMAIL_PW`` - gmail account password
+
+``EVAL_N_WEB_URL`` - URL for the Eval n admin web application. Included in notification emails.
+
+When the server starts, it checks whether notifications are enabled, if configuration variables are set correctly, and attempts to send itself a test email. If the test email fails, notifications are disabled and a message is shown in the log.
+
+While the server is running with notifications enabled, the email notification service will send a notification when an evaluation's status is changed to "Finished".
+
+## Question Audio
+
+Eval n allows administrators/evaluation facilitators to optionally upload an audio file for a question when it is created. When completing the evaluation, participants can choose to play the audio recording while reading a question.
+
+Audio files uploaded in the admin web app are sent to the server using a call to the API (See "Question Audio" under "API Routes" below). The server saves audio files it received through the API in an "Audio" directory it creates when it first starts. If the directory does not exist, it will be created. 
+Files are renamed according the the evaluation ID and question number, and served from `/audio`. Questions are also updated with the path of the correct audio file on the server to be played in the client apps.
+
+## API Authentication
 
 All routes require a token obtained after successfully authenticating with the API as follows:
  
@@ -33,7 +60,7 @@ If your credentials are correct, the response will contain the token:
 
 This token must be passed in an `api-token` header with any subsequent requests to the API.
 
-## Routes
+## API Routes
 
 ###Evaluation
 ####Create
@@ -201,7 +228,8 @@ POST http://hostname:port/api/accounts
 {
     "username" : "obi-wan-kenobi",
     "password" : "youremyonlyhope",
-    "isAdmin" : false
+    "isAdmin" : false,
+    "email" : "ben@jedi.com"
 }
 ```
 
@@ -281,7 +309,8 @@ PUT http://hostname:port/api/accounts/bob
 {
     "username" : "bob",
     "password" : "newpassword",
-    "isAdmin" : false
+    "isAdmin" : false,
+    "email" : "ben@jedi.com"
 }
 ```
 
