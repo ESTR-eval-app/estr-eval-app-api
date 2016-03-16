@@ -12,16 +12,17 @@ module.exports.get = function (req, res) {
   else if (!req.params.username) {
     // get all
     db.table('accounts')
-      .run()
       .then(function (result) {
         if (result.length == 0) {
           res.status(404).json({error: "no accounts found"});
         }
         else {
+          // TODO this returns an empty result
           res.json({
             "id": result.id,
             "username": result.username,
-            "isAdmin": result.isAdmin
+            "isAdmin": result.isAdmin,
+            "email": result[0].email
           });
         }
       })
@@ -37,16 +38,16 @@ module.exports.get = function (req, res) {
         "username": req.params.username
       })
       .limit(1)
-      .run()
       .then(function (result) {
         if (result.length == 0) {
           res.status(404).json({error: "account not found"});
         }
         else {
           res.json({
-            "id": result.id,
-            "username": result.username,
-            "isAdmin": result.isAdmin
+            "id": result[0].id,
+            "username": result[0].username,
+            "isAdmin": result[0].isAdmin,
+            "email": result[0].email
           });
         }
       })
@@ -63,14 +64,15 @@ module.exports.post = function (req, res) {
   var username = req.body.username;
   var password = req.body.password;
   var isAdmin = req.body.isAdmin;
+  var email = req.body.email;
 
   // check whether requesting user has permissions
   console.log(req.decodedToken.username + " is admin? " + req.decodedToken.isAdmin);
   if (!req.decodedToken.isAdmin) {
     res.status(403).json({"message": "not authorized"});
   }
-  else if (!username || !password) {
-    res.json({error: "must provide username and password"});
+  else if (!username || !password || !email) {
+    res.json({error: "must provide username, password and email"});
   }
 
   // check for existing user with same name, otherwise add
@@ -79,25 +81,24 @@ module.exports.post = function (req, res) {
       "username": username
     })
     .limit(1)
-    .run()
     .then(function (result) {
       if (result.length == 0) {
-        createAccount(username, password, isAdmin, res);
+        createAccount(username, password, isAdmin, email, res);
       }
       else {
         res.status(400).json("this user cannot be added");
       }
     });
 
-  function createAccount(username, password, isAdmin, res) {
+  function createAccount(username, password, isAdmin, email, res) {
     db.table('accounts')
       .insert(
         {
           "username": username,
           "password": password,
-          "isAdmin": isAdmin
+          "isAdmin": isAdmin,
+          "email": email
         })
-      .run()
       .then(function (result) {
         res.json({
           "username": username
@@ -112,8 +113,8 @@ module.exports.post = function (req, res) {
 
 // update a user by username
 module.exports.put = function (req, res) {
-  if (!req.params.username) {
-    res.status(400).json({"error": "must provide username"});
+  if (!req.body.username || !req.body.email) {
+    res.status(400).json({"error": "must provide username and email"});
   }
   // can only be updated by admin or self
   else if (req.decodedToken.username != req.params.username || !req.decodedToken.isAdmin) {
@@ -127,11 +128,12 @@ module.exports.put = function (req, res) {
       .update({
         "username": req.body.username,
         "password": req.body.password,
-        "isAdmin": req.body.isAdmin
+        "isAdmin": req.body.isAdmin,
+        "email": req.body.email
       })
       .then(function (result) {
         if (result.replaced == 1 || result.unchanged == 1) {
-          res.json({"username": req.body.username});
+          res.json({"message": 'user updated successfully'});
         }
         else {
           res.status(404).json({error: "account not found"});
@@ -146,7 +148,7 @@ module.exports.put = function (req, res) {
 
 // delete a user by username
 module.exports.delete = function (req, res) {
-  if (!req.params.username) {
+  if (!req.body.username) {
     res.status(400).json({"error": "must provide username"});
   }
   else {

@@ -1,6 +1,6 @@
 "use strict";
 var db = require('../data/db.js');
-var audio = require('../data/audioStorage.js');
+var audio = require('../services/audioStorage.js');
 
 module.exports.post = function (req, res) {
   var evalId = req.params.evalId;
@@ -14,7 +14,6 @@ module.exports.post = function (req, res) {
   else {
     var content = req.body;
 
-    // TODO check evaluation exists?
     audio.storeAudioFile(evalId, questionId, content, function (path, err) {
       if (err) {
         console.error(err);
