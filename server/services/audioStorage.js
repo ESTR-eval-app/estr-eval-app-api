@@ -42,9 +42,6 @@ module.exports.storeAudioFile = function (evalId, questionId, file, completed) {
   });
 };
 
-// TODO check for orphaned audio files and clean up
-
-
 function cleanUpAudioFiles() {
   console.log('Cleaning up audio files...');
   fs.readdir(audioFileDirectory, function (err, files) {
@@ -54,7 +51,7 @@ function cleanUpAudioFiles() {
       var evaluationId = splitFile[0];
       var questionIndex = splitFile[1].split('.mp3')[0];
 
-
+      // get the evaluation and check that the audio file references a question, otherwise delete the file
       db.table('evaluations')
         .filter({
           "id": evaluationId
@@ -62,7 +59,6 @@ function cleanUpAudioFiles() {
         .limit(1)
         .then(function (result) {
           if (result.length != 0) {
-            // TODO check for question
             if (!questionExists(result[0], questionIndex)) {
               console.log('Question ' + questionIndex + ' in evaluation ' + evaluationId + ' does not exist.');
               deleteFile(filename);
@@ -81,12 +77,12 @@ function cleanUpAudioFiles() {
     })
   });
 
-  // search for an evaluation and question
+  // checks that an evaluation has a question with that index
   function questionExists(evaluation, questionIndex) {
     return evaluation.questions[questionIndex] != undefined;
   }
 
-  // if not exist, delete the file
+  // deletes a file from the audio directory
   function deleteFile(filename) {
     console.log('Deleting ' + filename);
     fs.unlink(audioFileDirectory + '/' + filename, function (err) {
