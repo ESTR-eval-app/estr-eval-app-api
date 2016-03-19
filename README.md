@@ -36,6 +36,8 @@ Eval n allows administrators/evaluation facilitators to optionally upload an aud
 Audio files uploaded in the admin web app are sent to the server using a call to the API (See "Question Audio" under "API Routes" below). The server saves audio files it received through the API in an "Audio" directory it creates when it first starts. If the directory does not exist, it will be created. 
 Files are renamed according the the evaluation ID and question number, and served from `/audio`. Questions are also updated with the path of the correct audio file on the server to be played in the client apps.
 
+The server periodically checks that all files in the audio directory are associated with an evaluation and question, deleting them otherwise.
+
 ## API Authentication
 
 All routes require a token obtained after successfully authenticating with the API as follows:
