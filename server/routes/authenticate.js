@@ -1,4 +1,4 @@
-//TODO hash passwords
+var hash = require('password-hash');
 var db = require('../data/db.js');
 var jwt = require('jsonwebtoken');
 var secret = process.env.ESTR_API_TOKEN_KEY;
@@ -13,13 +13,12 @@ module.exports.post = function (req, res) {
     else {
       db.table('accounts')
         .filter({
-          "username": username,
-          "password" : password
+          "username": username
         })
         .limit(1)
-        .run()
         .then(function (result) {
-            if (result.length == 1) {
+          if (result.length == 1
+            && passwordsMatch(result[0].password, req.body.password)) {
               userAuthSuccess(result[0], res);
             }
             else {
@@ -32,6 +31,10 @@ module.exports.post = function (req, res) {
         })
     }
 };
+
+function passwordsMatch(found, provided) {
+  return hash.verify(provided, found);
+}
 
 function userAuthSuccess(result, res) {
   console.log('AUTH success ' + result.username);

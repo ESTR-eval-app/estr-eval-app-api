@@ -1,10 +1,10 @@
-// TODO hash passwords
+var hash = require('password-hash');
 var db = require('../data/db.js');
 
 // get accounts
 module.exports.get = function (req, res) {
 
-  // check whether requesting user has permissions
+  //check whether requesting user has permissions
   console.log(req.decodedToken.username + " is admin? " + req.decodedToken.isAdmin);
   if (!req.decodedToken.isAdmin) {
     res.status(403).json({"message": "not authorized"});
@@ -17,13 +17,16 @@ module.exports.get = function (req, res) {
           res.status(404).json({error: "no accounts found"});
         }
         else {
-          // TODO this returns an empty result
-          res.json({
-            "id": result.id,
-            "username": result.username,
-            "isAdmin": result.isAdmin,
-            "email": result[0].email
+          var resp = [];
+          result.forEach(function (obj) {
+            resp.push({
+              "id": obj.id,
+              "username": obj.username,
+              "isAdmin": obj.isAdmin,
+              "email": obj.email
+            });
           });
+          res.json(resp);
         }
       })
       .error(function (err) {
@@ -62,11 +65,13 @@ module.exports.get = function (req, res) {
 // create account
 module.exports.post = function (req, res) {
   var username = req.body.username;
-  var password = req.body.password;
+  var password = hash.generate(req.body.password, {
+    algorithm: 'sha256'
+  });
   var isAdmin = req.body.isAdmin;
   var email = req.body.email;
 
-  // check whether requesting user has permissions
+  //check whether requesting user has permissions
   console.log(req.decodedToken.username + " is admin? " + req.decodedToken.isAdmin);
   if (!req.decodedToken.isAdmin) {
     res.status(403).json({"message": "not authorized"});
@@ -74,21 +79,22 @@ module.exports.post = function (req, res) {
   else if (!username || !password || !email) {
     res.json({error: "must provide username, password and email"});
   }
-
-  // check for existing user with same name, otherwise add
-  db.table('accounts')
-    .filter({
-      "username": username
-    })
-    .limit(1)
-    .then(function (result) {
-      if (result.length == 0) {
-        createAccount(username, password, isAdmin, email, res);
-      }
-      else {
-        res.status(400).json("this user cannot be added");
-      }
-    });
+  else {
+    // check for existing user with same name, otherwise add
+    db.table('accounts')
+      .filter({
+        "username": username
+      })
+      .limit(1)
+      .then(function (result) {
+        if (result.length == 0) {
+          createAccount(username, password, isAdmin, email, res);
+        }
+        else {
+          res.status(400).json("this user cannot be added");
+        }
+      });
+  }
 
   function createAccount(username, password, isAdmin, email, res) {
     db.table('accounts')
@@ -127,7 +133,9 @@ module.exports.put = function (req, res) {
       })
       .update({
         "username": req.body.username,
-        "password": req.body.password,
+        "password": hash.generate(req.body.password, {
+          algorithm: 'sha256'
+        }),
         "isAdmin": req.body.isAdmin,
         "email": req.body.email
       })
