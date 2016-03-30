@@ -2,41 +2,59 @@
 var db = require('../data/db.js');
 var notifier = require('../services/emailNotify.js');
 
-module.exports = function (evaluation) {
+// check daily for finished evaluations
+setInterval(function () {
+  console.log(new Date());
+  console.log("Checking for finished evaluations...");
+  checkForFinishedEvaluations();
+}, 86400000);
 
-  if (evaluation.status != "Finished") {
+function checkForFinishedEvaluations() {
+  db.table('evaluations')
+    .then(function (result) {
+      result = result.filter(function (evaluation) {
+        return evaluation.status != "Finished"
+      });
+      result.forEach(function (evaluation) {
+        if (hasEvaluationFinishDatePassed(evaluation)) {
+          setEvaluationFinished(evaluation);
+        }
+      })
+    })
+    .error(function (err) {
+      console.error(err)
+    });
+}
+
+function hasEvaluationFinishDatePassed(evaluation) {
     var today = new Date();
     var evalFinishDate = new Date(evaluation.resultsAvailableDate);
     if (today > evalFinishDate) {
       console.log("Evaluation finished - NOW " + today + " FINISH DATE " + evalFinishDate);
-      evaluation.status = "Finished";
-      setEvaluationFinished(evaluation.id);
-      notifier.sendEmailNotification(evaluation.createdBy, evaluation);
+      return true;
     }
+  return false;
+}
 
-  }
-  return evaluation;
-
-};
-
-function setEvaluationFinished(id) {
+function setEvaluationFinished(evaluation) {
+  evaluation.status = "Finished";
   db.table('evaluations')
   .filter({
-    "id": id
+    "id": evaluation.id
   })
   .update({
-    "status": "Finished"
+    "status": evaluation.status
   })
   .then(function (result) {
     if (result.replaced == 1 || result.unchanged == 1) {
-      console.log("Evaluation " + id + " set to Finshed successfully");
+      console.log("Evaluation " + evaluation.id + " set to Finished successfully");
+      notifier.sendEmailNotification(evaluation.createdBy, evaluation);
     }
     else {
-      console.error("Evaluation " + id + " not updated");
+      console.error("Evaluation " + evaluation.id + " not updated");
     }
   })
   .error(function (err) {
     console.error(err);
   })
-
 }

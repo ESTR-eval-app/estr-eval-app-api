@@ -1,5 +1,4 @@
 var db = require('../data/db.js');
-var checkFinished = require('../data/checkEvaluationFinished.js');
 
 // get evaluations
 module.exports.get = function (req, res) {
@@ -12,10 +11,6 @@ module.exports.get = function (req, res) {
           res.status(404).json({error: "no evaluations found"});
         }
         else {
-          // check for finished evaluations and update if necessary
-          result.forEach(function(eval, index, result) {
-              eval = checkFinished(eval);
-          });
           res.json(result);
         }
       })
@@ -37,10 +32,6 @@ module.exports.get = function (req, res) {
           res.status(404).json({error: "evaluation not found"});
         }
         else {
-          // check for finished evaluations and update if necessary
-          result.forEach(function(eval, index, result) {
-            eval = checkFinished(eval);
-          });
           res.json(result);
         }
       })
