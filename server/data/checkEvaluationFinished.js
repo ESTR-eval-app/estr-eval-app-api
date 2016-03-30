@@ -2,12 +2,12 @@
 var db = require('../data/db.js');
 var notifier = require('../services/emailNotify.js');
 
-// check daily for finished evaluations
+// check four times daily for finished evaluations
 setInterval(function () {
   console.log(new Date());
   console.log("Checking for finished evaluations...");
   checkForFinishedEvaluations();
-}, 86400000);
+}, 86400000 / 4);
 
 function checkForFinishedEvaluations() {
   db.table('evaluations')
