@@ -11,7 +11,7 @@ Key for signing JSON web token:
 
 ## Email Notifications
 
-When an evaluation's status is changed to finished, the server sends a notification email to the user's email address to let them know that results are available.
+The server checks periodically for evaluations that have a "Results Available" date that has passed, and sets them as "Finished". When an evaluation's status is changed to finished, the server sends a notification email to the user's email address to let them know that results are available.
 
 The server uses Nodemailer `https://github.com/nodemailer/nodemailer` to access a Gmail account defined in the server config and send notification emails to the address for the user that created the evaluation. 
 

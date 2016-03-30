@@ -5,6 +5,8 @@ var jwt = require('jsonwebtoken');
 
 var secret = process.env.ESTR_API_TOKEN_KEY;
 
+var checkFinished = require('./data/checkEvaluationFinished.js');
+
 var audio = require('./services/audioStorage.js');
 audio.init();
 
