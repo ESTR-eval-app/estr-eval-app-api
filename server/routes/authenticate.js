@@ -1,7 +1,7 @@
 var hash = require('password-hash');
 var db = require('../data/db.js');
 var jwt = require('jsonwebtoken');
-var secret = process.env.ESTR_API_TOKEN_KEY;
+var secret = process.env.EVAL_N_TOKEN_KEY;
 
 module.exports.post = function (req, res) {
     var username = req.body.username;

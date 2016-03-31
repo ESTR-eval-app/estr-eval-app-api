@@ -1,13 +1,13 @@
 [![Build Status](https://travis-ci.org/ESTR-eval-app/estr-eval-app-api.svg?branch=master)](https://travis-ci.org/ESTR-eval-app/estr-eval-app-api)
 
-# ESTR Evaluation App API
+# Eval n API
 
 RethinkDB environment variables for database connection:
-``ESTR_API_DB_HOST``
-``ESTR_API_DB_PORT``
+``EVAL_N_DB_HOST``
+``EVAL_N_DB_PORT``
 
 Key for signing JSON web token: 
-``ESTR_API_TOKEN_KEY``
+``EVAL_N_TOKEN_KEY``
 
 ## Email Notifications
 
