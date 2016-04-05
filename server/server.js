@@ -50,7 +50,7 @@ router.use(function (req, res, next) {
   if (token) {
     jwt.verify(token, secret, function (err, decoded) {
       if (err) {
-        return res.json({"message": "authentication failed."});
+        return res.status(403).json({"message": "authentication failed."});
       } else {
         // save token to request
         req.decodedToken = decoded;
