@@ -3,7 +3,7 @@ var app = express();
 
 var jwt = require('jsonwebtoken');
 
-var secret = process.env.ESTR_API_TOKEN_KEY;
+var secret = process.env.EVAL_N_TOKEN_KEY;
 
 var checkFinished = require('./data/checkEvaluationFinished.js');
 
@@ -50,6 +50,7 @@ router.use(function (req, res, next) {
   if (token) {
     jwt.verify(token, secret, function (err, decoded) {
       if (err) {
+        console.error(err);
         return res.status(403).json({"message": "authentication failed."});
       } else {
         // save token to request
